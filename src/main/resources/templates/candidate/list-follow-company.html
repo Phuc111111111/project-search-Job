@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="public/fragments.html :: head"></head>
+
+<body>
+<nav th:replace="public/fragments.html :: nav"></nav>
+<!-- END nav -->
+
+<div class="hero-wrap hero-wrap-2" th:style="'background-image: url('+@{/assets/images/bg_1.jpg}+');'" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-start">
+            <div class="col-md-12 text-center mb-5">
+                <p class="breadcrumbs mb-0"><span class="mr-3"><a href="/templates/public">Trang chủ <i class="ion-ios-arrow-forward"></i></a></span>Công ty <span></span></p>
+                <h1 class="mb-3 bread">Danh sách công ty đã theo dõi</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 pr-lg-5">
+                <div th:if="${followCompanyList.size() > 0}" class="row">
+                    <th:block th:each="followCompany : ${followCompanyList}">
+                        <div th:id="${'follow-company-id'}+${followCompany.id}" class="col-md-12 ">
+                            <div class="job-post-item p-4 d-block d-lg-flex align-items-center">
+                                <div class="one-third mb-4 mb-md-0">
+                                    <div class="job-post-item-header align-items-center">
+                                        <h2 class="mr-3 text-black"><a th:text="${followCompany.company.nameCompany}" th:href="${'/user/detail-company/'}+${followCompany.company.id}"></a></h2>
+                                    </div>
+                                    <div class="job-post-item-body d-block d-md-flex">
+                                        <div class="mr-3"><span class="icon-layers"></span> <span th:text="${followCompany.company.email}"></span> </div>
+                                        <div class="mr-3"><span class="icon-my_location"></span> <span th:text="${followCompany.company.address}"></span></div>
+                                        <div style="margin-left: 10px"><span class="icon-my_location"></span> <span th:text="${followCompany.company.phoneNumber}"></span></div>
+                                    </div>
+                                </div>
+                                <input type="hidden" th:id="${'followCompanyId'}+${followCompany.id}" th:value="${followCompany.id}">
+                                <div class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0" style="width:370px !important;">
+                                    <div>
+                                        <a th:onclick="'deleteFollowCompany(' +${followCompany.id}+ ')'"
+                                           class="icon text-center d-flex justify-content-center align-items-center icon mr-2">
+                                            <span class="icon-delete"></span>
+                                        </a>
+                                    </div>
+                                    <a th:href="${'/user/detail-company/'}+${followCompany.company.id}" class="btn btn-primary py-2">Chi tiết</a>
+                                    <a th:href="${'/candidate/company-post/'}+${followCompany.company.id}" class="btn btn-warning py-2 ml-1">Danh sách bài đăng</a>
+                                </div>
+                            </div>
+                        </div><!-- end -->
+                    </th:block>
+                </div>
+                <div style="text-align: center" th:if="${followCompanyList.size() < 1}">
+                    <p style="color:red;">Danh sách trống</p>
+                </div>
+
+                <!-- PAGINATION -->
+                <!--<div class="row mt-5">
+                    <div class="col text-center">
+                        <div class="block-27">
+                            <ul>
+                                <li th:if="${numberPage>0}"><a th:href="@{/save-job/get-list(page = ${saveJobList.number - 1})}">&lt;</a></li>
+                                <th:block th:each="recruitment,state  : ${recruitmentList}">
+                                    <li th:class="${numberPage == state.index  ? 'active' : null }"><a th:href="@{/save-job/get-list(page = ${state.index})}" th:text="${state.index + 1}"></a></li>
+                                </th:block>
+                                <li th:if="${numberPage<saveJobList.totalPages - 1}"><a th:href="@{/save-job/get-list(page = ${saveJobList.number + 1})}">&gt;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="public/fragments.html :: footer"></footer>
+
+<script>
+    function deleteFollowCompany(id) {
+        var divId = "#follow-company-id" + id;
+        var name = "#followCompanyId" + id;
+        var followCompanyId = $(name).val();
+        var formData = new FormData();
+        formData.append('followCompanyId', followCompanyId);
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/ajax/delete-followCompany',
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    if (data == "true") {
+                        // swal({
+                        //     title: 'Bỏ ứng tuyển thành công!',
+                        //     /* text: 'Redirecting...', */
+                        //     icon: 'error',
+                        //     timer: 3000,
+                        //     buttons: true,
+                        //     type: 'error'
+                        // })
+                        $(divId).remove();
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            }
+        )
+    }
+</script>
+
+<!-- loader -->
+<!--<div th:replace="public/fragments :: loading" id="ftco-loader" class="show fullscreen"></div>-->
+
+</body>
+</html>

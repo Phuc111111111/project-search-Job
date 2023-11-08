@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="public/fragments.html :: head"></head>
+
+<body>
+<nav th:replace="public/fragments.html :: nav"></nav>
+<!-- END nav -->
+
+<div class="hero-wrap hero-wrap-2" th:style="'background-image: url('+@{/assets/images/bg_1.jpg}+');'" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-start">
+            <div class="col-md-12 text-center mb-5">
+                <p class="breadcrumbs mb-0"><span class="mr-3"><a href="/templates/public">Trang chủ <i class="ion-ios-arrow-forward"></i></a></span>Công việc <span></span></p>
+                <h1 class="mb-3 bread">Danh sách công việc đã ứng tuyển</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 pr-lg-5">
+                <div th:if="${applyPostList.size() > 0}" class="row">
+                    <th:block th:each="applyPost : ${applyPostList}">
+                        <div th:id="${'apply-post-id'}+${applyPost.id}" class="col-md-12 ">
+                            <div class="job-post-item p-4 d-block d-lg-flex align-items-center">
+                                <div class="one-third mb-4 mb-md-0">
+                                    <div class="job-post-item-header align-items-center">
+                                        <span class="subadge" th:text="${applyPost.recruitment.type}"></span>
+                                        <h2 class="mr-3 text-black" ><a th:text="${applyPost.recruitment.title}"
+                                                                        th:href="${'/user/detail-post/'} +${applyPost.recruitment.id}"></a></h2>
+                                    </div>
+                                    <div class="job-post-item-body d-block d-md-flex">
+                                        <div class="mr-3"><span class="icon-layers"></span> <a th:href="${'/user/detail-company/'} +${applyPost.recruitment.company.id}"
+                                                                                               th:text="${applyPost.recruitment.company.nameCompany}" ></a></div>
+                                        <div><span class="icon-my_location"></span> <span th:text="${applyPost.recruitment.address}"></span></div>
+                                    </div>
+                                </div>
+                                <input type="hidden" th:id="${'applyPostId'}+${applyPost.id}"
+                                       th:value="${applyPost.id}">
+                                <div class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
+                                    <div>
+                                        <a th:onclick="'deleteAppliedPost(' +${applyPost.id}+ ')'"
+                                           class="icon text-center d-flex justify-content-center align-items-center icon mr-2">
+                                            <span class="icon-delete"></span>
+                                        </a>
+                                    </div>
+                                    <!--<p th:if="${saveJob.status == 1}" style="color: #1e7e34;font-weight: bold;margin-top: 10px">Đã duyệt</p>
+                                    <p th:if="${saveJob.status == 0}" style="color: red;font-weight: bold;margin-top: 10px">Đợi duyệt</p>-->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end -->
+                    </th:block>
+                </div>
+                <div style="text-align: center" th:if="${applyPostList.size() < 1}">
+                    <p style="color:red;">Danh sách trống</p>
+                </div>
+
+                <!-- PAGINATION-->
+                <!--<div class="row mt-5">
+                    <div class="col text-center">
+                        <div class="block-27">
+                            <ul>
+                                <li th:if="${numberPage>0}"><a th:href="@{/save-job/get-list(page = ${saveJobList.number - 1})}">&lt;</a></li>
+                                <th:block th:each="recruitment,state  : ${recruitmentList}">
+                                    <li th:class="${numberPage == state.index  ? 'active' : null }"><a th:href="@{/save-job/get-list(page = ${state.index})}" th:text="${state.index + 1}"></a></li>
+                                </th:block>
+                                <li th:if="${numberPage<saveJobList.totalPages - 1}"><a th:href="@{/save-job/get-list(page = ${saveJobList.number + 1})}">&gt;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="public/fragments.html :: footer"></footer>
+
+<script>
+
+    function deleteAppliedPost(id) {
+        var divId = "#apply-post-id" + id;
+        var name = "#applyPostId" + id;
+        var applyPostId = $(name).val();
+        var formData = new FormData();
+        formData.append('applyPostId', applyPostId);
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/ajax/delete-applyPost',
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    if (data == "true") {
+                        // swal({
+                        //     title: 'Bỏ ứng tuyển thành công!',
+                        //     /* text: 'Redirecting...', */
+                        //     icon: 'error',
+                        //     timer: 3000,
+                        //     buttons: true,
+                        //     type: 'error'
+                        // })
+                        $(divId).remove();
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            }
+        )
+    }
+</script>
+
+<!-- loader -->
+<!--<div th:replace="public/fragments :: loading" id="ftco-loader" class="show fullscreen"></div>-->
+
+</body>
+</html>
