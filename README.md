@@ -22,6 +22,8 @@ NGƯỜI TÌM VIỆC GỒM:
 
 - Đăng nhập/Đăng ký/Đăng xuất hệ thống
 
+- Hiển Thị danh sách các bài đăng, phân trang tìm kiếm,
+
 - Chức năng tìm việc (tìm kiếm theo công việc/ứng cử viên/địa điểm)
 
 - Cập nhật thông tin của bản thân
@@ -35,7 +37,9 @@ NGƯỜI TÌM VIỆC GỒM:
 - Xem danh sách công việc đã lưu/đã ứng tuyển
 
 - Quản lý các việc/công ty đã theo dõi
-Chức năng của website:
+
+  
+Chi tiết Chức năng của website:
 
 1 Hiển thị Trang chủ
 
