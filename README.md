@@ -4,8 +4,37 @@ Dự án này là một website giúp tạo cầu nối trung gian giữa nhà t
 
 Sử dụng: Spring Boot, Thymeleaf, Spring MVC, Spring Security, Spring Data JPA, SQL SERVER,
 
-Tổng quan chức năng
+Tổng quan chức năng 
 
+NGƯỜI TUYỂN DỤNG GỒM: 
+
+- Đăng nhập,đăng xuất, đăng ký, tài khoản,
+
+- Gửi email khi đăng ký để xác thực tài khoản
+
+- Cập nhật thông tin cá nhân và công ty
+
+- Quản lý đăng tin tuyển dụng (Hiển thị các bài đăng)
+
+- Quản lý ứng viên (Danh sách ứng viên)
+
+NGƯỜI TÌM VIỆC GỒM:
+
+- Đăng nhập/Đăng ký/Đăng xuất hệ thống
+
+- Chức năng tìm việc (tìm kiếm theo công việc/ứng cử viên/địa điểm)
+
+- Cập nhật thông tin của bản thân
+
+- Chức năng tạo CV (Upload file pdf)
+
+- Ứng tuyển vào công việc
+
+- Theo dõi công việc, theo dõi công ty
+
+- Xem danh sách công việc đã lưu/đã ứng tuyển
+
+- Quản lý các việc/công ty đã theo dõi
 Chức năng của website:
 
 1 Hiển thị Trang chủ
